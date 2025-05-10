@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Incident Response Simulator</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Cybersecurity Incident Response Simulator</h1>
+    <form method="POST" action="/simulate">
+        <label for="incident_type">Select an Incident:</label>
+        <select name="incident_type" id="incident_type">
+            {% for key in incidents.keys() %}
+                <option value="{{ key }}" {% if selected == key %}selected{% endif %}>{{ key }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit">Simulate</button>
+    </form>
+
+    {% if response %}
+    <div class="response">
+        <h2>Response Plan for: {{ selected }}</h2>
+        <p><strong>Containment:</strong> {{ response.Containment }}</p>
+        <p><strong>Recovery:</strong> {{ response.Recovery }}</p>
+        <p><strong>NIST:</strong> {{ response["NIST Category"] }}</p>
+        <p><strong>ASD 8:</strong> {{ response["ASD 8 Control"] }}</p>
+    </div>
+    {% endif %}
+</body>
+</html>
