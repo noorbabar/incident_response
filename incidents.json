@@ -1,31 +1,210 @@
 {
-    "Phishing Attack": {
-      "Low": {
-        "Containment": "Train users to identify phishing emails.",
-        "Recovery": "Reset passwords of affected users.",
-        "NIST": "PR.AT-1",
-        "ASD 8": "User application hardening"
-      },
-      "High": {
-        "Containment": "Isolate email system, notify users.",
-        "Recovery": "Conduct forensic review, update email filters.",
-        "NIST": "RS.CO-2, RS.RP-1",
-        "ASD 8": "Multi-factor authentication"
-      }
+  "Phishing Attack": {
+    "Low": {
+      "Containment": "Block sender domains and URLs in email filters",
+      "Recovery": "Reset passwords for affected users and conduct targeted awareness training",
+      "NIST": "PR.AT-1: All users are informed and trained",
+      "ASD 8": "User application hardening",
+      "CIA Impact": "Confidentiality - Possible credential theft",
+      "Prevention": "Regular phishing simulation exercises and user awareness training"
     },
-    "Malware Infection": {
-      "Medium": {
-        "Containment": "Disconnect affected devices.",
-        "Recovery": "Patch software and scan systems.",
-        "NIST": "RS.MI-1",
-        "ASD 8": "Patch operating systems"
-      },
-      "High": {
-        "Containment": "Trigger full incident response, notify SOC.",
-        "Recovery": "Restore systems, validate backups.",
-        "NIST": "RS.MI-2",
-        "ASD 8": "Application control"
-      }
+    "Medium": {
+      "Containment": "Isolate affected accounts, block sender domains, implement email quarantine",
+      "Recovery": "Force password reset for all users, scan systems for malware, deploy additional email scanning",
+      "NIST": "DE.CM-4: Malicious code is detected",
+      "ASD 8": "Multi-factor authentication",
+      "CIA Impact": "Confidentiality and Integrity - Credential theft and potential account takeover",
+      "Prevention": "Implement DMARC, SPF and DKIM for email authentication"
+    },
+    "High": {
+      "Containment": "Isolate email system, notify all users of breach, disable compromised accounts",
+      "Recovery": "Full forensic investigation, credential rotation, email system hardening",
+      "NIST": "RS.CO-2: Incidents are reported according to established criteria",
+      "ASD 8": "Multi-factor authentication and regular backups",
+      "CIA Impact": "Confidentiality, Integrity, Availability - Widespread credential theft and system access",
+      "Prevention": "Security email gateway with advanced threat protection"
+    }
+  },
+  "Ransomware Attack": {
+    "Low": {
+      "Containment": "Isolate affected systems, disconnect from network",
+      "Recovery": "Restore systems from clean backups, scan network for persistence",
+      "NIST": "PR.IP-4: Backups of information are conducted, maintained, and tested",
+      "ASD 8": "Regular backups and application control",
+      "CIA Impact": "Availability - Limited system access disruption",
+      "Prevention": "Implement application whitelisting and regular backups"
+    },
+    "Medium": {
+      "Containment": "Network segmentation, disable administrative shares, block command and control domains",
+      "Recovery": "Rebuild affected systems from trusted images, restore data from offline backups",
+      "NIST": "DE.CM-1: The network is monitored to detect potential cybersecurity events",
+      "ASD 8": "Application control and patch applications",
+      "CIA Impact": "Availability and Integrity - Department-wide system disruption",
+      "Prevention": "Implement endpoint detection and response (EDR) solutions"
+    },
+    "High": {
+      "Containment": "Complete network isolation, engage incident response team, notify law enforcement",
+      "Recovery": "Full enterprise recovery from secure backups, system-wide integrity verification",
+      "NIST": "RS.MI-1: Incidents are contained to minimize impact",
+      "ASD 8": "Application control and patch applications",
+      "CIA Impact": "Confidentiality, Integrity, Availability - Enterprise-wide system disruption and data theft",
+      "Prevention": "Zero-trust architecture implementation and air-gapped backups"
+    }
+  },
+  "Data Breach": {
+    "Low": {
+      "Containment": "Revoke exposed credentials, audit access logs",
+      "Recovery": "Implement additional monitoring, data classification review",
+      "NIST": "ID.RA-4: Potential business impacts and likelihoods are identified",
+      "ASD 8": "Restrict administrative privileges",
+      "CIA Impact": "Confidentiality - Limited exposure of non-sensitive data",
+      "Prevention": "Data Loss Prevention (DLP) solutions"
+    },
+    "Medium": {
+      "Containment": "Restrict data access, implement honeytokens, enhanced logging",
+      "Recovery": "Data classification review, system hardening, access control review",
+      "NIST": "PR.DS-5: Protections against data leaks are implemented",
+      "ASD 8": "Multi-factor authentication and restrict administrative privileges",
+      "CIA Impact": "Confidentiality and Integrity - Exposure of business-sensitive data",
+      "Prevention": "Implement data encryption at rest and in transit"
+    },
+    "High": {
+      "Containment": "Complete lockdown of affected systems, engage forensic experts, notify authorities",
+      "Recovery": "Full security audit, data loss assessment, customer notification",
+      "NIST": "RS.CO-2: Incidents are reported consistent with response plan",
+      "ASD 8": "Comprehensive application of Essential Eight controls",
+      "CIA Impact": "Confidentiality, Integrity, Availability - Exposure of regulated or highly sensitive data",
+      "Prevention": "Regular penetration testing and security audit program"
+    }
+  },
+  "DDoS Attack": {
+    "Low": {
+      "Containment": "Implement traffic filtering, increase capacity temporarily",
+      "Recovery": "Monitor traffic patterns, adjust firewall rules",
+      "NIST": "DE.CM-1: The network is monitored to detect potential cybersecurity events",
+      "ASD 8": "Regular backups (for service restoration)",
+      "CIA Impact": "Availability - Minor service disruption",
+      "Prevention": "Use CDN services for traffic distribution"
+    },
+    "Medium": {
+      "Containment": "Engage ISP for upstream filtering, implement rate limiting",
+      "Recovery": "Deploy anti-DDoS appliances, analyze attack vectors",
+      "NIST": "PR.PT-4: Communications and control networks are protected",
+      "ASD 8": "Network segmentation and defense in depth",
+      "CIA Impact": "Availability - Major service disruption for critical systems",
+      "Prevention": "Deploy dedicated DDoS protection services"
+    },
+    "High": {
+      "Containment": "Activate DDoS protection service, implement BGP routing changes",
+      "Recovery": "Architectural review, implement global traffic scrubbing",
+      "NIST": "RS.MI-2: Incidents are mitigated",
+      "ASD 8": "Network segmentation and multi-layered defense",
+      "CIA Impact": "Availability - Complete service outage for extended period",
+      "Prevention": "Implement anycast network architecture and traffic scrubbing services"
+    }
+  },
+  "Malware Infection": {
+    "Low": {
+      "Containment": "Isolate affected systems, block malware domains",
+      "Recovery": "Remove malware, patch vulnerabilities, scan systems",
+      "NIST": "DE.CM-4: Malicious code is detected",
+      "ASD 8": "Patch applications and operating systems",
+      "CIA Impact": "Integrity - System files potentially compromised",
+      "Prevention": "Maintain updated antivirus and endpoint protection"
+    },
+    "Medium": {
+      "Containment": "Network segmentation, block command and control channels",
+      "Recovery": "Rebuild affected systems, update security controls",
+      "NIST": "RS.MI-3: Newly identified vulnerabilities are mitigated or documented as accepted risks",
+      "ASD 8": "Application control and patch applications",
+      "CIA Impact": "Confidentiality and Integrity - Data exposure and system compromise",
+      "Prevention": "Implement application whitelisting and behavior monitoring"
+    },
+    "High": {
+      "Containment": "Complete network isolation, disconnect external connectivity",
+      "Recovery": "Full system restoration from clean media, credential rotation",
+      "NIST": "RS.MI-1: Incidents are contained",
+      "ASD 8": "Application control and restrict administrative privileges",
+      "CIA Impact": "Confidentiality, Integrity, Availability - Advanced persistent threat actor in environment",
+      "Prevention": "Advanced threat protection with machine learning capabilities"
+    }
+  },
+  "Insider Threat": {
+    "Low": {
+      "Containment": "Monitor suspicious activity, review access logs",
+      "Recovery": "Adjust access controls, enhance activity monitoring",
+      "NIST": "PR.AC-4: Access permissions and authorizations are managed",
+      "ASD 8": "Restrict administrative privileges",
+      "CIA Impact": "Confidentiality - Potential unauthorized data access",
+      "Prevention": "Role-based access control with least privilege"
+    },
+    "Medium": {
+      "Containment": "Revoke access, preserve digital evidence, implement additional monitoring",
+      "Recovery": "Access control review, activate data loss prevention controls",
+      "NIST": "DE.CM-3: Personnel activity is monitored to detect potential cybersecurity events",
+      "ASD 8": "Restrict administrative privileges and multi-factor authentication",
+      "CIA Impact": "Confidentiality and Integrity - Unauthorized data modification or exfiltration",
+      "Prevention": "User and entity behavior analytics (UEBA) implementation"
+    },
+    "High": {
+      "Containment": "Immediate account termination, forensic preservation, legal team engagement",
+      "Recovery": "Complete security audit, privilege review across organization",
+      "NIST": "RS.AN-3: Forensics are performed",
+      "ASD 8": "Comprehensive privilege management and monitoring",
+      "CIA Impact": "Confidentiality, Integrity, Availability - Significant data theft or sabotage",
+      "Prevention": "Strong separation of duties and privileged access management"
+    }
+  },
+  "Supply Chain Attack": {
+    "Low": {
+      "Containment": "Isolate affected vendor systems and connections",
+      "Recovery": "Verify system integrity, implement additional monitoring",
+      "NIST": "ID.SC-5: Response and recovery planning and testing are conducted with suppliers and providers",
+      "ASD 8": "Patch applications and operating systems",
+      "CIA Impact": "Integrity - Potential compromise of vendor-supplied components",
+      "Prevention": "Vendor security assessment program"
+    },
+    "Medium": {
+      "Containment": "Disconnect from compromised vendors, implement manual verification processes",
+      "Recovery": "Third-party security assessment, code review of vendor components",
+      "NIST": "ID.SC-4: Suppliers and third-party partners are routinely assessed",
+      "ASD 8": "Application control and patch applications",
+      "CIA Impact": "Integrity and Availability - Compromised software updates or components",
+      "Prevention": "Software composition analysis (SCA) and vendor risk management"
+    },
+    "High": {
+      "Containment": "Immediate isolation of all affected systems, engage incident response team",
+      "Recovery": "Full system rebuild from verified sources, comprehensive vendor review",
+      "NIST": "ID.SC-2: Suppliers and third-party partners of information systems, components, and services are identified, prioritized, and assessed",
+      "ASD 8": "Comprehensive application of Essential Eight controls",
+      "CIA Impact": "Confidentiality, Integrity, Availability - Deep persistent compromise via trusted channel",
+      "Prevention": "Zero-trust architecture for all vendor connections"
+    }
+  },
+  "Web Application Attack": {
+    "Low": {
+      "Containment": "Block malicious IP addresses, patch vulnerable components",
+      "Recovery": "Security code review, update WAF rules",
+      "NIST": "PR.PT-3: The principle of least functionality is incorporated by configuring systems to provide only essential capabilities",
+      "ASD 8": "Patch applications",
+      "CIA Impact": "Integrity - Potential data manipulation",
+      "Prevention": "Regular vulnerability scanning and web application firewall"
+    },
+    "Medium": {
+      "Containment": "Take affected applications offline, implement IP reputation filtering",
+      "Recovery": "Code security review, penetration testing, data integrity verification",
+      "NIST": "PR.IP-1: A baseline configuration of information technology is created and maintained",
+      "ASD 8": "Patch applications and restrict administrative privileges",
+      "CIA Impact": "Confidentiality and Integrity - Data exposure and potential system access",
+      "Prevention": "Implement secure coding practices and OWASP Top 10 mitigations"
+    },
+    "High": {
+      "Containment": "Complete isolation of web infrastructure, rebuild from secure templates",
+      "Recovery": "Full application security assessment, database integrity verification",
+      "NIST": "PR.DS-7: Development and testing environment(s) are separate from the production environment",
+      "ASD 8": "Application control and comprehensive patching regime",
+      "CIA Impact": "Confidentiality, Integrity, Availability - Complete compromise of web applications and data",
+      "Prevention": "Runtime application self-protection (RASP) and continuous security testing"
     }
   }
-  
+}
