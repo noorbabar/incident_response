@@ -1,21 +1,31 @@
 {
     "Phishing Attack": {
-      "Containment": "Disconnect affected systems from the network.",
-      "Recovery": "Reset credentials and monitor for suspicious activity.",
-      "NIST Category": "RS.CO-2, RS.RP-1",
-      "ASD 8 Control": "Application control, User Application Hardening"
+      "Low": {
+        "Containment": "Train users to identify phishing emails.",
+        "Recovery": "Reset passwords of affected users.",
+        "NIST": "PR.AT-1",
+        "ASD 8": "User application hardening"
+      },
+      "High": {
+        "Containment": "Isolate email system, notify users.",
+        "Recovery": "Conduct forensic review, update email filters.",
+        "NIST": "RS.CO-2, RS.RP-1",
+        "ASD 8": "Multi-factor authentication"
+      }
     },
     "Malware Infection": {
-      "Containment": "Isolate infected endpoints immediately.",
-      "Recovery": "Run antivirus scan, patch vulnerabilities, restore from backups.",
-      "NIST Category": "RS.MI-1, RS.MI-2",
-      "ASD 8 Control": "Patch Applications, Patch Operating Systems"
-    },
-    "Unauthorized Access": {
-      "Containment": "Disable compromised accounts and block access.",
-      "Recovery": "Conduct forensic investigation, enhance IAM policies.",
-      "NIST Category": "RS.AN-1, RS.CO-3",
-      "ASD 8 Control": "Restrict Administrative Privileges"
+      "Medium": {
+        "Containment": "Disconnect affected devices.",
+        "Recovery": "Patch software and scan systems.",
+        "NIST": "RS.MI-1",
+        "ASD 8": "Patch operating systems"
+      },
+      "High": {
+        "Containment": "Trigger full incident response, notify SOC.",
+        "Recovery": "Restore systems, validate backups.",
+        "NIST": "RS.MI-2",
+        "ASD 8": "Application control"
+      }
     }
   }
   
