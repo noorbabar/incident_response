@@ -5,14 +5,13 @@ from datetime import datetime
 from utils import generate_timeline, generate_pdf_report
 
 app = Flask(__name__)
-app.secret_key = os.urandom(24)  # For flash messages
+app.secret_key = os.urandom(24)  
 
-# Load incident data
 try:
     with open('incidents.json') as f:
         INCIDENTS = json.load(f)
 except FileNotFoundError:
-    # Create sample incidents if file doesn't exist
+    # file != exist, then below should come up 
     INCIDENTS = {
         "Ransomware Attack": {
             "Low": {
@@ -75,7 +74,7 @@ except FileNotFoundError:
             }
         }
     }
-    # Save sample incidents for future use
+    # svae the sample ones incase it doesnt show
     with open('incidents.json', 'w') as f:
         json.dump(INCIDENTS, f, indent=2)
 
@@ -90,14 +89,10 @@ def simulate():
     incident_type = request.form.get('incident_type')
     severity = request.form.get('severity')
     custom_desc = request.form.get('description', '').strip()
-    
-    # Get response data based on selections
     response_data = INCIDENTS.get(incident_type, {}).get(severity, {})
-    
-    # Generate timeline for response
     timeline = generate_timeline(response_data)
     
-    # Log the incident
+    # save it for user when they log
     log_entry = {
         "incident": incident_type,
         "severity": severity,
@@ -105,7 +100,7 @@ def simulate():
         "timestamp": datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     }
     
-    # Ensure we're using JSON format for logs
+    # JSON format for logs
     logs = []
     if os.path.exists(LOG_FILE):
         try:
@@ -138,7 +133,7 @@ def logs():
     except (json.JSONDecodeError, FileNotFoundError):
         logs = []
     
-    # Sort logs by timestamp (newest first)
+    # dorting logs by timestamp 
     logs.sort(key=lambda x: x.get('timestamp', ''), reverse=True)
     
     return render_template('logs.html', logs=logs)
@@ -167,4 +162,4 @@ def server_error(e):
     return render_template('index.html', incidents=INCIDENTS, error="Server error occurred"), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=5000)
+    app.run(debug=True, host='0.0.0.0', port=5001)
